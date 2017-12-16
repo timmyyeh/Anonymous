@@ -18,5 +18,6 @@
         <activity android:name=".AnonymousMainActivity" />
         <activity android:name=".ChatMainActivity" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
