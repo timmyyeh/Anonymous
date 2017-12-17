@@ -19,9 +19,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
-
+/**
+ * Log in Screen, if users already log in, then it will go to the main activity screen.
+ * Two testing account: <anonymous@test.com> <anonymous>
+ *                      <anonymous1@test.com> <anonymous>
+ * After users click log in or register button, the email and password will be sent to the account
+ * database to verify their identities.
+ */
 public class LoginMainActivity extends AppCompatActivity {
 
     EditText _username;
@@ -46,12 +56,12 @@ public class LoginMainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    Log.d(TAG, "Log in:" + user.getUid());
+                    Log.d(TAG, "Status_Login:" + user.getUid());
                     userUID = user.getUid();
                     initMainActivity();
                 }
                 else{
-                    Log.d(TAG, "Log Out");
+                    Log.d(TAG, "Status_Logout");
                 }
             }
         };
@@ -62,32 +72,50 @@ public class LoginMainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.mProgessBar);
 
         Button login_btn = (Button) findViewById(R.id.login_btn);
-        Button createAccount_btn = (Button) findViewById(R.id.createAccount_btn);
+        final Button createAccount_btn = (Button) findViewById(R.id.createAccount_btn);
 
         login_btn.setOnClickListener(searchEvent);
+        createAccount_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+                if(isValid()) {
+                    createUser(email, password);
+                }
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }
+        });
 
 
     }
 
     /**
-     * checking user's information with out database. If users does not exist, then register pages will pop up
+     * checking user's information with Firebase. If users does not exist, then register pages will pop up
      */
     private View.OnClickListener searchEvent = new View.OnClickListener() {
 
         @Override
         public void onClick(View view) {
             progressBar.setVisibility(ProgressBar.VISIBLE);
-            email = _username.getText().toString();
-            password = _password.getText().toString();
 
+            // when the email and password are in valid formed, the data will be verified with Firebase
             if(isValid()){
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(!task.isSuccessful()){
-                                    Log.d(TAG, "Failed");
-                                    register(email, password);
+                                    try {
+                                        throw task.getException();
+                                    } catch (FirebaseAuthInvalidUserException invalidEmail) {
+                                        register(email, password);
+                                    }
+                                    catch (FirebaseAuthInvalidCredentialsException invalidPass){
+                                        Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_LONG).show();
+                                    }
+                                    catch (Exception e){
+                                        Log.d(TAG, "onComplete: " + e.getMessage());
+                                    }
                                 }
                             }
                         });
@@ -97,14 +125,19 @@ public class LoginMainActivity extends AppCompatActivity {
 
     };
 
+    /**
+     * When user login with a email that does not exist, a dialog will prompt users to register.
+     * @param email user's email account
+     * @param password password
+     */
     private void register(final String email, final String password) {
         new AlertDialog.Builder(LoginMainActivity.this)
-                .setTitle("Login Failure")
-                .setMessage("Account Does not Exist. Would you like to register?")
+                .setTitle("Account does not exist")
+                .setMessage("Would you like to register with this account and password?")
                 .setPositiveButton("Register", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                        createUser(email, password);
+                        createUser(email, password);
                         Toast.makeText(getApplicationContext(), "Create", Toast.LENGTH_LONG).show();
                     }
                 })
@@ -113,6 +146,37 @@ public class LoginMainActivity extends AppCompatActivity {
 
     }
 
+    private void createUser(String email, String password) {
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        String message = task.isSuccessful() ? "Welcome, New Anonymous" : "Failed: ";
+                        if(!task.isSuccessful()){
+                            try{
+                                throw task.getException();
+                            }
+                            catch(FirebaseAuthUserCollisionException ex){
+                                message += "Email already exists";
+
+                            }
+                            catch (FirebaseAuthWeakPasswordException e){
+                                message += "Password too weak";
+
+                            }
+                            catch (Exception ex){
+                                message += "Opps, something is wrong";
+                            }
+                        }
+                        new AlertDialog.Builder(LoginMainActivity.this)
+                                .setMessage(message)
+                                .setPositiveButton("Ok", null)
+                                .show();
+                    }
+                });
+    }
+
+    // move from login activity to main activity
     private void initMainActivity() {
         Intent intent = new Intent(LoginMainActivity.this, AnonymousMainActivity.class);
         startActivity(intent);
@@ -120,8 +184,14 @@ public class LoginMainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * checking whether email and password is valid
+     * @return true if both are valid
+     */
     private boolean isValid(){
         boolean valid = true;
+        email = _username.getText().toString();
+        password = _password.getText().toString();
 
         if(TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(getApplicationContext(), "Please Enter Valid Email", Toast.LENGTH_LONG).show();
@@ -142,7 +212,7 @@ public class LoginMainActivity extends AppCompatActivity {
         super.onStart();
         auth.addAuthStateListener(authStateListener);
     }
-
+    // logout
     @Override
     protected void onStop() {
         super.onStop();
