@@ -5,37 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seattle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="#555454"
-            android:textSize="40sp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="50dp" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="What's going on in"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="#555454"
-            android:textSize="25sp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="16dp" />
+        <com.github.florent37.diagonallayout.DiagonalLayout
+            android:id="@+id/diagonalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:diagonal_angle="5"
+            app:diagonal_direction="left"
+            app:diagonal_position="bottom"
+            >
+            
+            <com.flaviofaria.kenburnsview.KenBurnsView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/topAuthor"
+                    android:gravity="top|left"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:textSize="25dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#A0333639"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/top_title"
+                        android:gravity="top|left"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginBottom="30dp"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+        </com.github.florent37.diagonallayout.DiagonalLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_article"
             android:layout_width="match_parent"
             android:layout_height="392dp"
             tools:layout_editor_absoluteY="119dp" />
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_articles"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

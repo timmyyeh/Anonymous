@@ -21,7 +21,7 @@ class Source {
         return name;
     }
 }
-class Article {
+public class Article {
     private Source source;
     private String author;
     private String title;
