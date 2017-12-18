@@ -2,8 +2,37 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.anonymous.anonymous.ChatMainActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/bottom_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="252dp"
+        android:background="@color/common_google_signin_btn_text_light_default"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logout_btn"
+        app:layout_constraintVertical_bias="1.0"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageButton
+            android:id="@+id/chat_imgbtn"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_weight="1"
+            android:backgroundTint="#00000000"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            app:srcCompat="@drawable/chat" />
+
+    </android.support.v7.widget.Toolbar>
 
 </android.support.constraint.ConstraintLayout>
