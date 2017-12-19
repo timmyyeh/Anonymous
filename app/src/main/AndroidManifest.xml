@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".AnonymousMainActivity" />
         <activity android:name=".ChatMainActivity" />
+        <activity android:name=".DiscussionMainActivity" />
     </application>
 
 </manifest>

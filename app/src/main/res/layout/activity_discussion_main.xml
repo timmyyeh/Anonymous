@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anonymous.anonymous.DiscussionMainActivity">
+    tools:context="com.anonymous.anonymous.AnonymousMainActivity">
+    <RelativeLayout
 
-</android.support.constraint.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/common_google_signin_btn_text_light_default"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/top_toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_border_top"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/common_google_signin_btn_text_light_default"
+        >
+        <android.support.design.widget.BottomNavigationView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/bottom_nav_view"
+            android:background="@drawable/white_border_bottom"
+            app:menu="@menu/bottom_menu"
+            />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
