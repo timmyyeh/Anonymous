@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginMainActivity">
+        <activity android:name=".News.NewsMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".AnonymousMainActivity" />
         <activity android:name=".ChatMainActivity" />
+        <activity android:name=".News.NewsArticleActivity"></activity>
     </application>
 
 </manifest>

@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by pan on 2017/12/17.
  */
 
-class ListArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+class ListNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
     ItemClickListener itemClickListener;
 
@@ -31,7 +31,7 @@ class ListArticleViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     RelativeTimeTextView article_time;
     CircleImageView article_image;
 
-    public ListArticleViewHolder(View itemView) {
+    public ListNewsViewHolder(View itemView) {
         super(itemView);
 
         article_image = (CircleImageView) itemView.findViewById(R.id.article_image);
@@ -50,25 +50,25 @@ class ListArticleViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 }
-public class ListArticleAdapter extends RecyclerView.Adapter<ListArticleViewHolder>{
+public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
 
     private Context context;
     private List<Article> articleList;
 
-    public ListArticleAdapter(Context context, List<Article> articleList) {
+    public ListNewsAdapter(Context context, List<Article> articleList) {
         this.context = context;
         this.articleList = articleList;
     }
 
     @Override
-    public ListArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.acticity_news_article, parent, false);
-        return new ListArticleViewHolder(itemView);
+        return new ListNewsViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ListArticleViewHolder holder, int position) {
+    public void onBindViewHolder(ListNewsViewHolder holder, int position) {
         Picasso.with(context)
                 .load(articleList.get(position).getUrlToImage())
                 .into(holder.article_image);
