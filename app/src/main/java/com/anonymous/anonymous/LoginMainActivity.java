@@ -178,7 +178,7 @@ public class LoginMainActivity extends AppCompatActivity {
 
     // move from login activity to main activity
     private void initMainActivity() {
-        Intent intent = new Intent(LoginMainActivity.this, AnonymousMainActivity.class);
+        Intent intent = new Intent(LoginMainActivity.this, ChatMainActivity.class);
         startActivity(intent);
         finish();
 

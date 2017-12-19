@@ -18,7 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnonymousMainActivity" />
         <activity android:name=".ChatMainActivity" />
         <activity android:name=".DiscussionMainActivity" />
     </application>
