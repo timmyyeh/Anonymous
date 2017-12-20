@@ -1,31 +1,27 @@
 package com.anonymous.anonymous;
 
-
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
+public class DiscussionMainActivity extends AnonymousBaseActivity {
 
-public class ChatMainActivity extends AnonymousBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_main);
+        setContentView(R.layout.activity_discussion_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Chat");
+        getSupportActionBar().setTitle("Discussion Board");
 
         //bottom nav
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
     }
 
     @Override
@@ -43,4 +39,3 @@ public class ChatMainActivity extends AnonymousBaseActivity {
         return super.onNavigationItemSelected(item);
     }
 }
-

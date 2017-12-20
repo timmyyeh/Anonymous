@@ -2,4 +2,5 @@
     <string name="app_name">Anonymous</string>
     <string name="title_activity_chat_main">ChatMainActivity</string>
     <string name="title_activity_loading">loadingActivity</string>
+    <string name="title_activity_base">BaseActivity</string>
 </resources>
