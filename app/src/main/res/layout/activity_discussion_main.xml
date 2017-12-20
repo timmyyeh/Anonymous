@@ -5,39 +5,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anonymous.anonymous.AnonymousMainActivity">
-    <RelativeLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/common_google_signin_btn_text_light_default"
-        >
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/top_toolbar_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/white_border_top"
-            />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/common_google_signin_btn_text_light_default"
-        >
-        <android.support.design.widget.BottomNavigationView
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:id="@+id/bottom_nav_view"
-            android:background="@drawable/white_border_bottom"
-            app:menu="@menu/bottom_menu"
-            />
-
-
-    </RelativeLayout>
+    tools:context="com.anonymous.anonymous.DiscussionMainActivity">
+    <include layout="@layout/layout_top"></include>
+    <include layout="@layout/layout_bottom"></include>
 
 
 </RelativeLayout>
