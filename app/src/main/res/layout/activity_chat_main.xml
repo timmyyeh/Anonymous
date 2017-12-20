@@ -21,14 +21,5 @@
         android:textColor="@android:color/background_light"
         android:textSize="14sp" />
 
-    <ProgressBar
-        android:id="@+id/progressBar_search"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_findusers"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="19dp" />
-
 
 </RelativeLayout>

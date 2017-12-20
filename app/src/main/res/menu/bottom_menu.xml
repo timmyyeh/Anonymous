@@ -10,6 +10,7 @@
         android:title="Discussion"/>
     <item
         android:id="@+id/ic_news"
+        android:icon="@drawable/ic_news"
         android:title="News"/>
 
 

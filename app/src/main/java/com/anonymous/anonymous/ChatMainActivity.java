@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import dmax.dialog.SpotsDialog;
+
 
 public class ChatMainActivity extends AnonymousBaseActivity {
     @Override
@@ -20,12 +22,12 @@ public class ChatMainActivity extends AnonymousBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_main);
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar_search);
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        final SpotsDialog spotsDialog = new SpotsDialog(this, "Finding an Anonymous...");
+
         findViewById(R.id.button_findusers).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(ProgressBar.VISIBLE);
+                spotsDialog.show();
             }
         });
 
@@ -36,6 +38,10 @@ public class ChatMainActivity extends AnonymousBaseActivity {
         //bottom nav
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+        menuItem.setEnabled(false);
 
     }
 

@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
+import dmax.dialog.SpotsDialog;
+
 /**
  * Log in Screen, if users already log in, then it will go to the main activity screen.
  * Two testing account: <anonymous@test.com> <anonymous>
@@ -40,7 +42,6 @@ public class LoginMainActivity extends AppCompatActivity {
     String password;
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener authStateListener;
-    ProgressBar progressBar;
     private String userUID;
     private static final String TAG = "Authentication";
 
@@ -69,7 +70,6 @@ public class LoginMainActivity extends AppCompatActivity {
 
         _username = (EditText) findViewById(R.id.username_input);
         _password = (EditText) findViewById(R.id.password_input);
-        progressBar = (ProgressBar) findViewById(R.id.mProgessBar);
 
         Button login_btn = (Button) findViewById(R.id.login_btn);
         final Button createAccount_btn = (Button) findViewById(R.id.createAccount_btn);
@@ -78,11 +78,9 @@ public class LoginMainActivity extends AppCompatActivity {
         createAccount_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(ProgressBar.VISIBLE);
                 if(isValid()) {
                     createUser(email, password);
                 }
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         });
 
@@ -96,7 +94,6 @@ public class LoginMainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            progressBar.setVisibility(ProgressBar.VISIBLE);
 
             // when the email and password are in valid formed, the data will be verified with Firebase
             if(isValid()){
@@ -120,7 +117,6 @@ public class LoginMainActivity extends AppCompatActivity {
                             }
                         });
             }
-            progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
 
     };
