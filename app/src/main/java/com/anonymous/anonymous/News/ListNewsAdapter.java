@@ -1,6 +1,7 @@
 package com.anonymous.anonymous.News;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +34,11 @@ class ListNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     public ListNewsViewHolder(View itemView) {
         super(itemView);
-/*
-        article_image = (CircleImageView) itemView.findViewById(R.id.arti);
-        article_title = (TextView) itemView.findViewById(R.id.article_title);
-        article_time = (RelativeTimeTextView) itemView.findViewById(R.id.article_time);
-*/
+
+        article_image = (CircleImageView) itemView.findViewById(R.id.new_image);
+        article_title = (TextView) itemView.findViewById(R.id.news_title);
+        article_time = (RelativeTimeTextView) itemView.findViewById(R.id.news_time);
+
         itemView.setOnClickListener(this);
     }
 
@@ -47,23 +48,26 @@ class ListNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View view){
+
         itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 }
+
+
 public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
 
-    private Context context;
     private List<Article> articleList;
+    private Context context;
 
-    public ListNewsAdapter(Context context, List<Article> articleList) {
-        this.context = context;
+    public ListNewsAdapter(List<Article> articleList, Context context) {
         this.articleList = articleList;
+        this.context = context;
     }
 
     @Override
     public ListNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.acticity_news_article, parent, false);
+        View itemView = inflater.inflate(R.layout.activity_news_news, parent, false);
         return new ListNewsViewHolder(itemView);
     }
 
@@ -91,7 +95,9 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                //code later
+                Intent articleBody = new Intent(context, NewsArticleActivity.class);
+                articleBody.putExtra("webURL", articleList.get(position).getUrl());
+                context.startActivity(articleBody);
             }
         });
 

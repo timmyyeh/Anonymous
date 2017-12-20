@@ -67,17 +67,10 @@
         </com.github.florent37.diagonallayout.DiagonalLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_article"
+            android:layout_below="@+id/diagonalLayout"
+            android:id="@+id/list_news"
             android:layout_width="match_parent"
-            android:layout_height="392dp"
-            tools:layout_editor_absoluteY="119dp" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_articles"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
 
 </android.support.v4.widget.SwipeRefreshLayout>
