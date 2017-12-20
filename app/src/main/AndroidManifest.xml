@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".ChatMainActivity" />
         <activity android:name=".DiscussionMainActivity" />
+        <activity android:name=".News.NewsMainActivity" />
+        <activity android:name=".News.NewsArticleActivity" />
     </application>
 
 </manifest>
