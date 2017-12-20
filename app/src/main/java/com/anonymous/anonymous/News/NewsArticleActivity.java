@@ -1,11 +1,15 @@
 package com.anonymous.anonymous.News;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.anonymous.anonymous.AnonymousBaseActivity;
 import com.anonymous.anonymous.R;
 
 import dmax.dialog.SpotsDialog;
@@ -14,6 +18,7 @@ public class NewsArticleActivity extends AppCompatActivity {
 
     WebView webView;
     SpotsDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,4 +46,5 @@ public class NewsArticleActivity extends AppCompatActivity {
         }
 
     }
+
 }

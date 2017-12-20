@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.anonymous.anonymous.News.NewsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -37,6 +38,7 @@ public abstract class AnonymousBaseActivity extends AppCompatActivity implements
         return true;
     }
 
+    // bottom nav bar items
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
@@ -50,12 +52,14 @@ public abstract class AnonymousBaseActivity extends AppCompatActivity implements
                 return true;
             case R.id.ic_news:
                 Toast.makeText(getApplicationContext(), "news selected", Toast.LENGTH_SHORT).show();
+                switchActivity(NewsMainActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    //helper method to switch between activities
     private void switchActivity(Class<?> ActivityClass) {
         Intent intent = new Intent(this, ActivityClass);
         startActivity(intent);
