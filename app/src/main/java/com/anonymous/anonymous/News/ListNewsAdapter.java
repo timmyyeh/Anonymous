@@ -33,11 +33,11 @@ class ListNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     public ListNewsViewHolder(View itemView) {
         super(itemView);
-
-        article_image = (CircleImageView) itemView.findViewById(R.id.article_image);
+/*
+        article_image = (CircleImageView) itemView.findViewById(R.id.arti);
         article_title = (TextView) itemView.findViewById(R.id.article_title);
         article_time = (RelativeTimeTextView) itemView.findViewById(R.id.article_time);
-
+*/
         itemView.setOnClickListener(this);
     }
 

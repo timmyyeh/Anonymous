@@ -1,5 +1,6 @@
 package com.anonymous.anonymous.News;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,7 @@ public class NewsMainActivity extends AppCompatActivity {
     TextView top_author, top_title;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    String location = "\"Seattle\"", sortBy = "popularity", webHotUrl = "";
+    String location = "Seattle AND (WA OR Washington)", sortBy = "popularity", webHotUrl = "";
 
     ListNewsAdapter adapter;
     RecyclerView lstArticle;
@@ -58,7 +59,9 @@ public class NewsMainActivity extends AppCompatActivity {
         diagonalLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // READ NEWS??
+                Intent articleBody = new Intent(getBaseContext(), NewsArticleActivity.class);
+                articleBody.putExtra("webURL", webHotUrl);
+                startActivity(articleBody);
             }
         });
 
