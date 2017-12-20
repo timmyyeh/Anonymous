@@ -5,39 +5,30 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anonymous.anonymous.AnonymousMainActivity">
-    <RelativeLayout
+    tools:context="com.anonymous.anonymous.ChatMainActivity">
+    <include layout="@layout/layout_top"></include>
+    <include layout="@layout/layout_bottom"
+        android:id="@+id/include"></include>
 
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/common_google_signin_btn_text_light_default"
-        >
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/top_toolbar_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/white_border_top"
-            />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/button_findusers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_search_user"
+        android:text="Find An Anonymous"
+        android:textColor="@android:color/background_light"
+        android:textSize="14sp" />
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/common_google_signin_btn_text_light_default"
-        >
-        <android.support.design.widget.BottomNavigationView
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:id="@+id/bottom_nav_view"
-            android:background="@drawable/white_border_bottom"
-            app:menu="@menu/bottom_menu"
-            />
-
-
-    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progressBar_search"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_findusers"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp" />
 
 
 </RelativeLayout>

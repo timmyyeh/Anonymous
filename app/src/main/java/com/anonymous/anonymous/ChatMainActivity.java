@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -18,9 +20,18 @@ public class ChatMainActivity extends AnonymousBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_main);
 
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar_search);
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        findViewById(R.id.button_findusers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Chat");
+        getSupportActionBar().setTitle("Anonymous");
 
         //bottom nav
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);

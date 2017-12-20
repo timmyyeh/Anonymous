@@ -2,14 +2,18 @@ package com.anonymous.anonymous.News;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.anonymous.anonymous.News.Model.Article;
+import com.anonymous.anonymous.AnonymousBaseActivity;
 import com.anonymous.anonymous.News.Model.News;
 import com.anonymous.anonymous.R;
 import com.flaviofaria.kenburnsview.KenBurnsView;
@@ -27,7 +31,7 @@ import retrofit2.Response;
  * Created by pan on 2017/12/16.
  */
 
-public class NewsMainActivity extends AppCompatActivity {
+public class NewsMainActivity extends AnonymousBaseActivity {
     DiagonalLayout diagonalLayout;
     KenBurnsView kbv;
     SpotsDialog dialog;
@@ -82,6 +86,11 @@ public class NewsMainActivity extends AppCompatActivity {
         //Add location service here
 
         loadNews(location, false);
+
+        //bottom nav
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
     }
 
     private void loadNews(String location, boolean isRefreshed) {
@@ -157,6 +166,13 @@ public class NewsMainActivity extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(false);
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return super.onNavigationItemSelected(item);
+    }
+
+
 }
 
 
