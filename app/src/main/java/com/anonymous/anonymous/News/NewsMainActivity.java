@@ -6,17 +6,22 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.anonymous.anonymous.News.Model.Article;
 import com.anonymous.anonymous.AnonymousBaseActivity;
 import com.anonymous.anonymous.News.Model.News;
 import com.anonymous.anonymous.R;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.florent37.diagonallayout.DiagonalLayout;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
@@ -35,10 +40,10 @@ public class NewsMainActivity extends AnonymousBaseActivity {
     TextView top_author, top_title;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    String location = "Seattle AND (WA OR Washington)", sortBy = "popularity", webHotUrl = "";
+    String location = "Seattle AND (WA OR Washington)", sortBy = "publishedAt", webHotUrl = "";
 
     ListNewsAdapter adapter;
-    RecyclerView lstArticle;
+    RecyclerView lstNews;
     RecyclerView.LayoutManager layoutManager;
 
     @Override
@@ -73,6 +78,12 @@ public class NewsMainActivity extends AnonymousBaseActivity {
         top_author = (TextView) findViewById(R.id.topAuthor);
         top_title = (TextView) findViewById(R.id.top_title);
 
+        lstNews = (RecyclerView) findViewById(R.id.list_news);
+        lstNews.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        lstNews.setLayoutManager(layoutManager);
+
+
         //Add location service here
 
         loadNews(location, false);
@@ -80,6 +91,11 @@ public class NewsMainActivity extends AnonymousBaseActivity {
         //bottom nav
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
+        menuItem.setEnabled(false);
+
 
     }
 
@@ -101,6 +117,15 @@ public class NewsMainActivity extends AnonymousBaseActivity {
                             top_author.setText(response.body().getArticles().get(0).getAuthor());
 
                             webHotUrl = response.body().getArticles().get(0).getUrl();
+
+                            // load remainning articles
+                            List<Article> removeFirstItem = response.body().getArticles();
+
+                            // remove the first article that has been load
+                            removeFirstItem.remove(0);
+                            adapter = new ListNewsAdapter(removeFirstItem, getBaseContext());
+                            adapter.notifyDataSetChanged();
+                            lstNews.setAdapter(adapter);
                         }
 
                         @Override
@@ -108,6 +133,43 @@ public class NewsMainActivity extends AnonymousBaseActivity {
 
                         }
                     });
+        }
+        else{
+            dialog.show();
+            mService.getNews(Common.getAPIUrl(location, sortBy, Common.API_Key))
+                    .enqueue(new Callback<News>() {
+                                 @Override
+                                 public void onResponse(Call<News> call, Response<News> response) {
+                                     dialog.dismiss();
+
+                                     //get first article
+                                     Picasso.with(getBaseContext())
+                                             .load(response.body().getArticles().get(0).getUrlToImage())
+                                             .into(kbv);
+
+                                     top_title.setText(response.body().getArticles().get(0).getTitle());
+                                     top_author.setText(response.body().getArticles().get(0).getAuthor());
+
+                                     webHotUrl = response.body().getArticles().get(0).getUrl();
+
+                                     // load remainning articles
+                                     List<Article> removeFirstItem = response.body().getArticles();
+
+                                     // remove the first article that has been load
+                                     removeFirstItem.remove(0);
+                                     adapter = new ListNewsAdapter(removeFirstItem, getBaseContext());
+                                     adapter.notifyDataSetChanged();
+                                     //lstNews.setAdapter(adapter);
+
+                                 }
+
+                                 @Override
+                                 public void onFailure(Call<News> call, Throwable t) {
+
+                                 }
+                             }
+                    );
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 

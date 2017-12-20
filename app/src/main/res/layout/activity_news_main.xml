@@ -9,7 +9,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include layout="@layout/layout_bottom"></include>
+        <include layout="@layout/layout_bottom"
+            android:id="@+id/layout_bottom_news"/>
 
         <com.github.florent37.diagonallayout.DiagonalLayout
             android:id="@+id/diagonalLayout"
@@ -23,13 +24,13 @@
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/top_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,17 +68,11 @@
         </com.github.florent37.diagonallayout.DiagonalLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_article"
+            android:layout_below="@+id/diagonalLayout"
+            android:layout_above="@+id/layout_bottom_news"
+            android:id="@+id/list_news"
             android:layout_width="match_parent"
-            android:layout_height="392dp"
-            tools:layout_editor_absoluteY="119dp" />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_articles"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -22,6 +22,10 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         //bottom nav
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+        menuItem.setEnabled(false);
     }
 
     @Override
