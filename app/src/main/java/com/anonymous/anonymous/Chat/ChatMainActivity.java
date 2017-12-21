@@ -118,9 +118,11 @@ public class ChatMainActivity extends AnonymousBaseActivity {
         return super.onNavigationItemSelected(item);
     }
 
+    /**
+     * Helper method that will update the list
+     */
     private void displayMessage(){
         ListView listOfMessage = (ListView) findViewById(R.id.list_of_messages);
-
 
         ChatAdapter chatAdapter = new ChatAdapter(this, chatMessages);
 

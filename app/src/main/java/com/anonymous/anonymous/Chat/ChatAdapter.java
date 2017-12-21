@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.anonymous.anonymous.Chat.Model.ChatMessage;
 import com.anonymous.anonymous.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 
 public class ChatAdapter extends ArrayAdapter<ChatMessage>{
+    private final String uid = FirebaseAuth.getInstance().getUid();
 
     private static class ViewHolder{
         TextView message;
@@ -46,9 +48,10 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage>{
         else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        String account = uid.equals(messages.getUser()) ? "Me" : "Anonymous";
 
         viewHolder.message.setText(messages.getMessage());
-        viewHolder.user.setText(messages.getUser());
+        viewHolder.user.setText(account);
         viewHolder.time.setText(DateFormat.format("MM/dd(E) (HH:mm)", messages.getTime()));
 
 

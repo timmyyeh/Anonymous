@@ -52,25 +52,4 @@ public class ChatMessage {
                 ", mTime=" + mTime +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ChatMessage that = (ChatMessage) o;
-
-        if (mTime != that.mTime) return false;
-        if (mMessage != null ? !mMessage.equals(that.mMessage) : that.mMessage != null)
-            return false;
-        return mName != null ? mName.equals(that.mName) : that.mName == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mMessage != null ? mMessage.hashCode() : 0;
-        result = 31 * result + (mName != null ? mName.hashCode() : 0);
-        result = 31 * result + (int) (mTime ^ (mTime >>> 32));
-        return result;
-    }
 }
