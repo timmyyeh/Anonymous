@@ -1,4 +1,4 @@
-package com.anonymous.anonymous;
+package com.anonymous.anonymous.Discussion;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.anonymous.anonymous.AnonymousBaseActivity;
+import com.anonymous.anonymous.R;
 
 public class DiscussionMainActivity extends AnonymousBaseActivity {
 

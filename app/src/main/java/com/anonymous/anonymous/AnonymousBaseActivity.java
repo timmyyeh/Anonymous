@@ -1,20 +1,16 @@
 package com.anonymous.anonymous;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.anonymous.anonymous.Discussion.DiscussionMainActivity;
 import com.anonymous.anonymous.News.NewsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
-
-import dmax.dialog.SpotsDialog;
 
 
 public abstract class AnonymousBaseActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
