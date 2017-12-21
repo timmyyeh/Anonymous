@@ -3,7 +3,8 @@ package com.anonymous.anonymous;
 /**
  * Created by timmy on 2017/12/14.
  */
-
+//Use builder pattern
+    // get location
 public class Account {
     private String account;
     private String email;

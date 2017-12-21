@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
  *                      <anonymous1@test.com> <anonymous>
  * After users click log in or register button, the email and password will be sent to the account
  * database to verify their identities.
+ *
  */
 public class LoginMainActivity extends AppCompatActivity {
 
@@ -72,13 +73,22 @@ public class LoginMainActivity extends AppCompatActivity {
         Button login_btn = (Button) findViewById(R.id.login_btn);
         final Button createAccount_btn = (Button) findViewById(R.id.createAccount_btn);
 
+        // log in event.
         login_btn.setOnClickListener(searchEvent);
+        // create event
         createAccount_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isValid()) {
                     createUser(email, password);
                 }
+            }
+        });
+
+        findViewById(R.id.phone_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Text Click", Toast.LENGTH_SHORT).show();
             }
         });
 
