@@ -1,35 +1,34 @@
-package com.anonymous.anonymous;
+package com.anonymous.anonymous.Chat;
 
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import dmax.dialog.SpotsDialog;
+import com.anonymous.anonymous.AnonymousBaseActivity;
+import com.anonymous.anonymous.R;
 
 
 public class ChatMainActivity extends AnonymousBaseActivity {
+
+    private ChatPagerAdapter pagerAdapter;
+
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_main);
 
-        final SpotsDialog spotsDialog = new SpotsDialog(this, "Finding an Anonymous...");
+        pagerAdapter = new ChatPagerAdapter(getSupportFragmentManager());
 
-        findViewById(R.id.button_findusers).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                spotsDialog.show();
-            }
-        });
+        viewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(viewPager);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);
@@ -42,6 +41,7 @@ public class ChatMainActivity extends AnonymousBaseActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
         menuItem.setEnabled(false);
+
 
     }
 
@@ -59,5 +59,13 @@ public class ChatMainActivity extends AnonymousBaseActivity {
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return super.onNavigationItemSelected(item);
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ChatPagerAdapter adapter = new ChatPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ChatFragment());
+        viewPager.setAdapter(adapter);
+    }
+
+
 }
 
