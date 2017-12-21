@@ -22,16 +22,18 @@
 
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:src="@drawable/ic_send_black_24dp"
-            android:id="@+id/fab"
-            android:tint="@android:color/white"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:src="@drawable/ic_send_black_24dp"
+            android:tint="@android:color/white"
+            app:backgroundTint="#c2c2c2"
             app:fabSize="mini"
-            android:layout_alignParentRight="true" />
+            app:rippleColor="#ffffff" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -44,7 +46,10 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#000000"
+                android:textColor="#c2c2c2"
                 android:hint="enter some text"
+                android:textColorHint="#c2c2c2"
                 android:id="@+id/input"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -59,6 +64,7 @@
             android:divider="@android:color/transparent"
             android:id="@+id/list_of_messages"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="5px"
             android:layout_alignParentLeft="true" />
     </RelativeLayout>
 
