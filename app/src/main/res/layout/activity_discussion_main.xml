@@ -6,8 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.anonymous.anonymous.Discussion.DiscussionMainActivity">
-    <include layout="@layout/layout_top"
-        android:id="@+id/include2"></include>
+
+    <include
+        android:id="@+id/DiscussionTitleBar"
+        layout="@layout/layout_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"></include>
     <include layout="@layout/layout_bottom"></include>
 
     <ImageButton
@@ -17,6 +22,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:onClick="createNewDiscussion"
         app:srcCompat="@mipmap/add_button" />
 
 

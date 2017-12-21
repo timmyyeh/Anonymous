@@ -21,6 +21,7 @@
         <activity android:name=".ChatMainActivity" />
         <activity android:name=".Discussion.DiscussionMainActivity" />
         <activity android:name=".News.NewsMainActivity" />
+        <activity android:name=".Discussion.DiscussionCreateActivity"></activity>
     </application>
 
 </manifest>
