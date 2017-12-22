@@ -184,6 +184,7 @@ public class LoginMainActivity extends AppCompatActivity {
     private void initMainActivity() {
         Intent intent = new Intent(LoginMainActivity.this, ChatMainActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         finish();
 
     }

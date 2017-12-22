@@ -64,5 +64,6 @@ public abstract class AnonymousBaseActivity extends AppCompatActivity implements
     private void switchActivity(Class<?> ActivityClass) {
         Intent intent = new Intent(this, ActivityClass);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }
