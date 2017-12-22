@@ -8,12 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.anonymous.anonymous.Chat.ChatMainActivity;
+import com.anonymous.anonymous.Discussion.DiscussionMainActivity;
 import com.anonymous.anonymous.News.NewsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 public abstract class AnonymousBaseActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-
 
     // toolbar's overflow menu item
     @Override
@@ -63,5 +64,6 @@ public abstract class AnonymousBaseActivity extends AppCompatActivity implements
     private void switchActivity(Class<?> ActivityClass) {
         Intent intent = new Intent(this, ActivityClass);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

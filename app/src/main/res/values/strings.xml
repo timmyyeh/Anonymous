@@ -3,4 +3,8 @@
     <string name="title_activity_chat_main">ChatMainActivity</string>
     <string name="title_activity_loading">loadingActivity</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_discussion">title</string>
+    <string name="message_activity_discussion">message</string>
+    <string name="phone_login"><u>Log in/Register with phone</u></string>
+    <string name="resend_code"><u>Did not receive the code? Send it again</u></string>
 </resources>

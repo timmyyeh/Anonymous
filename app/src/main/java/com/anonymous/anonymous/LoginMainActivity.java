@@ -12,9 +12,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.anonymous.anonymous.Chat.ChatMainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
  *                      <anonymous1@test.com> <anonymous>
  * After users click log in or register button, the email and password will be sent to the account
  * database to verify their identities.
+ *
  */
 public class LoginMainActivity extends AppCompatActivity {
 
@@ -40,7 +41,6 @@ public class LoginMainActivity extends AppCompatActivity {
     String password;
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener authStateListener;
-    ProgressBar progressBar;
     private String userUID;
     private static final String TAG = "Authentication";
 
@@ -58,7 +58,7 @@ public class LoginMainActivity extends AppCompatActivity {
                 if(user != null){
                     Log.d(TAG, "Status_Login:" + user.getUid());
                     userUID = user.getUid();
-                    initMainActivity();
+                    initActivity(ChatMainActivity.class);
                 }
                 else{
                     Log.d(TAG, "Status_Logout");
@@ -69,20 +69,27 @@ public class LoginMainActivity extends AppCompatActivity {
 
         _username = (EditText) findViewById(R.id.username_input);
         _password = (EditText) findViewById(R.id.password_input);
-        progressBar = (ProgressBar) findViewById(R.id.mProgessBar);
 
         Button login_btn = (Button) findViewById(R.id.login_btn);
         final Button createAccount_btn = (Button) findViewById(R.id.createAccount_btn);
 
+        // log in event.
         login_btn.setOnClickListener(searchEvent);
+        // create event
         createAccount_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(ProgressBar.VISIBLE);
                 if(isValid()) {
                     createUser(email, password);
                 }
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }
+        });
+
+        // phone log in
+        findViewById(R.id.phone_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initActivity(PhoneMainActivity.class);
             }
         });
 
@@ -96,7 +103,6 @@ public class LoginMainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            progressBar.setVisibility(ProgressBar.VISIBLE);
 
             // when the email and password are in valid formed, the data will be verified with Firebase
             if(isValid()){
@@ -120,7 +126,6 @@ public class LoginMainActivity extends AppCompatActivity {
                             }
                         });
             }
-            progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
 
     };
@@ -176,10 +181,11 @@ public class LoginMainActivity extends AppCompatActivity {
                 });
     }
 
-    // move from login activity to main activity
-    private void initMainActivity() {
-        Intent intent = new Intent(LoginMainActivity.this, ChatMainActivity.class);
+    // move from login activity to other activity
+    private void initActivity(Class<?> activity) {
+        Intent intent = new Intent(LoginMainActivity.this, activity);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         finish();
 
     }
