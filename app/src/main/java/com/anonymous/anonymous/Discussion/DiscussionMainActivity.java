@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.anonymous.anonymous.AnonymousBaseActivity;
+import com.anonymous.anonymous.Discussion.DiscussionCreateActivity;
 import com.anonymous.anonymous.R;
 
 public class DiscussionMainActivity extends AnonymousBaseActivity {
