@@ -1,5 +1,7 @@
 package com.anonymous.anonymous.Discussion;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +44,21 @@ public class DiscussionCreateActivity extends AppCompatActivity {
         String title = titleBar.toString();
         String message = messageBar.getText().toString();
 
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+        //Initializing the database
+        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(getApplicationContext());
+
+        // Gets the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_MESSAGE, message);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId = db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
     }
 
     private boolean isEmpty(EditText etText) {
