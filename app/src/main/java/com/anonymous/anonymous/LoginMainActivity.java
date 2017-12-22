@@ -58,7 +58,7 @@ public class LoginMainActivity extends AppCompatActivity {
                 if(user != null){
                     Log.d(TAG, "Status_Login:" + user.getUid());
                     userUID = user.getUid();
-                    initMainActivity();
+                    initActivity(ChatMainActivity.class);
                 }
                 else{
                     Log.d(TAG, "Status_Logout");
@@ -85,10 +85,11 @@ public class LoginMainActivity extends AppCompatActivity {
             }
         });
 
+        // phone log in
         findViewById(R.id.phone_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Text Click", Toast.LENGTH_SHORT).show();
+                initActivity(PhoneMainActivity.class);
             }
         });
 
@@ -180,9 +181,9 @@ public class LoginMainActivity extends AppCompatActivity {
                 });
     }
 
-    // move from login activity to main activity
-    private void initMainActivity() {
-        Intent intent = new Intent(LoginMainActivity.this, ChatMainActivity.class);
+    // move from login activity to other activity
+    private void initActivity(Class<?> activity) {
+        Intent intent = new Intent(LoginMainActivity.this, activity);
         startActivity(intent);
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         finish();
