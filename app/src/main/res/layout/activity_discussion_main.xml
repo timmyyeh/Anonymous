@@ -5,9 +5,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anonymous.anonymous.DiscussionMainActivity">
-    <include layout="@layout/layout_top"></include>
+    tools:context="com.anonymous.anonymous.Discussion.DiscussionMainActivity">
+
+    <include
+        android:id="@+id/DiscussionTitleBar"
+        layout="@layout/layout_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"></include>
     <include layout="@layout/layout_bottom"></include>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="createNewDiscussion"
+        app:srcCompat="@mipmap/add_button" />
 
 
 </RelativeLayout>
