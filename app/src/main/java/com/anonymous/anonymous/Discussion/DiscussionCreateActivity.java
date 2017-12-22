@@ -26,15 +26,19 @@ public class DiscussionCreateActivity extends AppCompatActivity {
         EditText titleBar = (EditText) findViewById(R.id.discussion_title);
         EditText messageBar = (EditText) findViewById(R.id.discussion_message);
 
-        if(isEmpty(titleBar))
+        if(isEmpty(titleBar))               //When title bar is empty
         {
-            Toast.makeText(getApplicationContext(), "Set title and message", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),
+                    "Set title and message", Toast.LENGTH_SHORT).show();
+            return;
         }
-        else if (isEmpty(messageBar))
+        else if (isEmpty(messageBar))       //When message bar is empty
         {
             Toast.makeText(getApplicationContext(), "Set message", Toast.LENGTH_SHORT).show();
+            return;
         }
 
+        //Saving string information into the database.
         String title = titleBar.toString();
         String message = messageBar.getText().toString();
 

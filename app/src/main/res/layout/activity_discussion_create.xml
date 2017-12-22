@@ -21,13 +21,13 @@
         android:layout_height="42dp"
         android:layout_marginBottom="613dp"
         android:layout_marginStart="360dp"
+        android:onClick="saveDiscussion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/apply_button"
-        android:layout_marginLeft="360dp" />
+        app:srcCompat="@mipmap/apply_button" />
 
     <EditText
         android:id="@+id/discussion_title"
