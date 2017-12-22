@@ -18,15 +18,10 @@
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="wrap_content"
-<<<<<<< HEAD
-        android:layout_height="wrap_content"
-        android:onClick="saveDiscussion"
-=======
         android:layout_height="42dp"
         android:layout_marginBottom="613dp"
         android:layout_marginStart="360dp"
         app:layout_constraintBottom_toBottomOf="parent"
->>>>>>> 9b2c74a5aec18cef1454571959fc84415cf82b71
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
