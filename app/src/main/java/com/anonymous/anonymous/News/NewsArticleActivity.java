@@ -1,15 +1,15 @@
 package com.anonymous.anonymous.News;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.support.v7.widget.CardView;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
-import com.anonymous.anonymous.AnonymousBaseActivity;
 import com.anonymous.anonymous.R;
 
 import dmax.dialog.SpotsDialog;
@@ -18,12 +18,14 @@ public class NewsArticleActivity extends AppCompatActivity {
 
     WebView webView;
     SpotsDialog dialog;
+    FloatingActionButton comment;
+    CardView commentPad;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acticity_news_article);
+        setContentView(R.layout.activity_news_web);
 
         dialog = new SpotsDialog(this);
         dialog.show();
@@ -39,11 +41,25 @@ public class NewsArticleActivity extends AppCompatActivity {
             }
         });
 
+        //comment button
+        comment = findViewById(R.id.fab);
+        comment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //commentPad.setVisibility(View.VISIBLE);
+                //comment.setVisibility(View.GONE);
+            }
+        });
+
+        /*//comment pad view
+        commentPad = (CardView)findViewById(R.id.comment_pad);
+        commentPad.setVisibility(View.GONE);
+
         if(getIntent() != null)
         {
             if(!getIntent().getStringExtra("webURL").isEmpty())
                 webView.loadUrl(getIntent().getStringExtra("webURL"));
-        }
+        }*/
 
     }
 

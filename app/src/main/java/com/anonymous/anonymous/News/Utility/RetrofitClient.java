@@ -1,4 +1,4 @@
-package com.anonymous.anonymous.News;
+package com.anonymous.anonymous.News.Utility;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

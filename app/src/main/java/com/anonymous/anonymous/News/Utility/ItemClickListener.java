@@ -1,4 +1,4 @@
-package com.anonymous.anonymous.News;
+package com.anonymous.anonymous.News.Utility;
 
 import android.view.View;
 
