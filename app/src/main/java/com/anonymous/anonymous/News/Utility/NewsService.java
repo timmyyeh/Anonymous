@@ -1,4 +1,4 @@
-package com.anonymous.anonymous.News;
+package com.anonymous.anonymous.News.Utility;
 
 import com.anonymous.anonymous.News.Model.News;
 

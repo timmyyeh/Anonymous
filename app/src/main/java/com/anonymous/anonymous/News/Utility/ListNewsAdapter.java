@@ -1,4 +1,4 @@
-package com.anonymous.anonymous.News;
+package com.anonymous.anonymous.News.Utility;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.anonymous.anonymous.News.Model.Article;
-import com.anonymous.anonymous.News.Utility.ISO8601DateParser;
+import com.anonymous.anonymous.News.NewsArticleActivity;
 import com.anonymous.anonymous.R;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.squareup.picasso.Picasso;
@@ -67,7 +67,7 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
     @Override
     public ListNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.activity_news_news, parent, false);
+        View itemView = inflater.inflate(R.layout.layout_newsitem, parent, false);
         return new ListNewsViewHolder(itemView);
     }
 

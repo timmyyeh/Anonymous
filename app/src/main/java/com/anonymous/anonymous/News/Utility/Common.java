@@ -1,4 +1,4 @@
-package com.anonymous.anonymous.News;
+package com.anonymous.anonymous.News.Utility;
 
 /**
  * Created by pan on 2017/12/18.
