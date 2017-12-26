@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"></include>
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/apply_button"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_marginBottom="613dp"

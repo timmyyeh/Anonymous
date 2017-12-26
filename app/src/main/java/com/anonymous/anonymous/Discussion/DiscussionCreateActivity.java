@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.anonymous.anonymous.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DiscussionCreateActivity extends AppCompatActivity {
 
@@ -40,25 +44,29 @@ public class DiscussionCreateActivity extends AppCompatActivity {
             return;
         }
 
-        //Saving string information into the database.
-        String title = titleBar.toString();
-        String message = messageBar.getText().toString();
+        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "Anonymous.db", null, 1);
 
-        //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        //Assinging the data
+        final EditText etTitle = (EditText) findViewById(R.id.discussion_title);
+        final EditText etMessage = (EditText) findViewById(R.id.discussion_message);
 
-        //Initializing the database
-        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(getApplicationContext());
+        //Getting current time and date
+        final long now = System.currentTimeMillis();
 
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        //Format of the date
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/ MM/ dd");
 
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_MESSAGE, message);
+        ImageButton insert = (ImageButton) findViewById(R.id.apply_button);
+        insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String date = simpleDateFormat.format(new Date(now)).toString();
+                String title = etTitle.toString();
+                String message = etMessage.toString();
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
+                dbHelper.insert(date, title, message);
+            }
+        });
     }
 
     private boolean isEmpty(EditText etText) {
