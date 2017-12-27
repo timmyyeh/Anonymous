@@ -10,24 +10,34 @@ import java.io.Serializable;
 
 public class Comment implements Serializable{
 
-    private Account user;
-    private String commentId;
+    private String user;
     private long timeCreated;
     private String comment;
 
-    public Comment(Account user, String commentId, long timeCreated, String comment) {
+    public Comment() {
+
+    }
+
+    public Comment(String user, long timeCreated, String comment) {
         this.user = user;
-        this.commentId = commentId;
         this.timeCreated = timeCreated;
         this.comment = comment;
     }
 
-    public Account getUser() {
-        return user;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getCommentId() {
-        return commentId;
+    public void setTimeCreated(long timeCreated) {
+        this.timeCreated = timeCreated;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getUser() {
+        return user;
     }
 
     public long getTimeCreated() {
