@@ -23,6 +23,7 @@
         <activity android:name=".News.NewsMainActivity" />
         <activity android:name=".Discussion.DiscussionCreateActivity" />
         <activity android:name=".PhoneMainActivity"></activity>
+        <activity android:name=".News.NewsArticleActivity"></activity>
     </application>
 
 </manifest>

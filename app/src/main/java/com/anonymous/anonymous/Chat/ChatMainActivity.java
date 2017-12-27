@@ -77,6 +77,8 @@ public class ChatMainActivity extends AnonymousBaseActivity {
                 chatMessages.add(chatMessage);
                 displayMessage();
 
+
+
             }
 
             @Override
