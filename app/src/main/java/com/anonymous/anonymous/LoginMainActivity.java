@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.anonymous.anonymous.Chat.ChatActivity;
 import com.anonymous.anonymous.Chat.ChatMainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +59,7 @@ public class LoginMainActivity extends AppCompatActivity {
                 if(user != null){
                     Log.d(TAG, "Status_Login:" + user.getUid());
                     userUID = user.getUid();
-                    initActivity(ChatMainActivity.class);
+                    initActivity(ChatActivity.class);
                 }
                 else{
                     Log.d(TAG, "Status_Logout");

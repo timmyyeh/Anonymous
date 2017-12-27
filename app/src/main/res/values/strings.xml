@@ -7,4 +7,7 @@
     <string name="message_activity_discussion">message</string>
     <string name="phone_login"><u>Log in/Register with phone</u></string>
     <string name="resend_code"><u>Did not receive the code? Send it again</u></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

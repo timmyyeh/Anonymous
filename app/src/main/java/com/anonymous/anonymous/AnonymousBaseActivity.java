@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.anonymous.anonymous.Chat.ChatActivity;
 import com.anonymous.anonymous.Chat.ChatMainActivity;
 import com.anonymous.anonymous.Discussion.DiscussionMainActivity;
 import com.anonymous.anonymous.News.NewsMainActivity;
@@ -45,7 +46,7 @@ public abstract class AnonymousBaseActivity extends AppCompatActivity implements
         switch(item.getItemId()){
             case R.id.ic_chat:
                 Toast.makeText(getApplicationContext(), "chat Selected", Toast.LENGTH_LONG).show();
-                switchActivity(ChatMainActivity.class);
+                switchActivity(ChatActivity.class);
                 return true;
             case R.id.ic_discuss:
                 Toast.makeText(getApplicationContext(), "discussion selected", Toast.LENGTH_SHORT).show();
