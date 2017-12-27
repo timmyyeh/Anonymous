@@ -18,12 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Chat.ChatMainActivity" />
+        <activity android:name=".Chat.ChatActivity" />
         <activity android:name=".Discussion.DiscussionMainActivity" />
         <activity android:name=".News.NewsMainActivity" />
         <activity android:name=".Discussion.DiscussionCreateActivity" />
         <activity android:name=".PhoneMainActivity" />
-        <activity android:name=".Chat.ChatActivity"></activity>
     </application>
 
 </manifest>
