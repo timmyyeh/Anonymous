@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.anonymous.anonymous.News.Model.Comment;
-import com.anonymous.anonymous.News.Utility.ISO8601DateParser;
-import com.anonymous.anonymous.News.Utility.ItemClickListener;
 import com.anonymous.anonymous.R;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +35,7 @@ class ListCommentsViewHolder extends RecyclerView.ViewHolder {
 public class ListCommentsAdapter extends RecyclerView.Adapter<ListCommentsViewHolder>{
     private List<Comment> commentList;
     private Context context;
+    private final String uid = FirebaseAuth.getInstance().getUid();
 
     public ListCommentsAdapter(List<Comment> commentList, Context context) {
         this.commentList = commentList;
@@ -52,7 +51,9 @@ public class ListCommentsAdapter extends RecyclerView.Adapter<ListCommentsViewHo
 
     @Override
     public void onBindViewHolder(ListCommentsViewHolder holder, int position) {
-        holder.comment_user.setText(commentList.get(position).getUser());
+        String user = commentList.get(position).getUser();
+        holder.comment_user.setText(uid.equals(user) ? "Me" : "Anonymous");
+
         holder.comment_content.setText(commentList.get(position).getComment());
 
         Date date = new Date(commentList.get(position).getTimeCreated());

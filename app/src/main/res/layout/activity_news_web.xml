@@ -15,40 +15,53 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="bottom">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:layout_gravity="bottom"
             android:orientation="vertical">
+            <android.support.v7.widget.Toolbar
+
+                android:id="@+id/top_toolbar_comment"
+                android:layout_width="match_parent"
+                android:layout_weight="1.5"
+                android:layout_height= "0dp"
+                android:background="@android:color/darker_gray"
+                />
             <android.support.v7.widget.RecyclerView
-                android:layout_margin="10dp"
+                android:layout_margin="14dp"
+                android:layout_below="@id/top_toolbar_comment"
                 android:id="@+id/comments_list"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"></android.support.v7.widget.RecyclerView>
+                android:layout_height="0dp"
+                android:layout_weight="6.5"
+                android:layout_alignLeft="@id/top_toolbar_main"></android.support.v7.widget.RecyclerView>
             <LinearLayout
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
-                android:layout_height="68dp"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/editComment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="9"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/darker_gray"
-                    android:text="Type comment..." />
+                    android:textColor="@android:color/darker_gray"/>
                 <ImageButton
                     android:id="@+id/send_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#ffffff"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_send_black_24dp"
                     android:tint="@android:color/black"/>
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.design.widget.FloatingActionButton
