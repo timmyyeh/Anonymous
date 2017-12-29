@@ -1,48 +1,38 @@
 package com.anonymous.anonymous.News;
 
 import android.app.ProgressDialog;
-import android.support.annotation.NonNull;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.anonymous.anonymous.Account;
 import com.anonymous.anonymous.News.Adapter.ListCommentsAdapter;
-import com.anonymous.anonymous.News.Adapter.ListNewsAdapter;
 import com.anonymous.anonymous.News.Model.Comment;
-import com.anonymous.anonymous.News.Utility.ISO8601DateParser;
 import com.anonymous.anonymous.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -51,16 +41,18 @@ public class NewsArticleActivity extends AppCompatActivity {
 
     WebView webView;
     SpotsDialog dialog;
-    FloatingActionButton comment;
+    FloatingActionButton commentButton;
     CardView commentPad;
     String webUrl;
     RecyclerView commentList;
     ImageButton sendButton;
     EditText commentField;
-    DatabaseReference webRef;
-    RecyclerView.LayoutManager layoutManager;
+    DatabaseReference newsArticleDataRef;
+    DatabaseReference commentsRef;
+    DatabaseReference numOfComRef;
     ListCommentsAdapter commentAdapter;
     List<Comment> comments;
+    android.support.v7.widget.Toolbar commentToolBar;
 
 
     @Override
@@ -68,14 +60,33 @@ public class NewsArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_web);
 
-        webRef = FirebaseDatabase.getInstance().getReference("webs");
+        //initialize webview
+        webView = (WebView)findViewById(R.id.webView);
+        commentButton = (FloatingActionButton)findViewById(R.id.fab);
 
+        //initialize invisibe comment pad view
+        commentPad = (CardView)findViewById(R.id.comment_pad);
+        commentPad.setVisibility(View.GONE);
+
+        commentList = (RecyclerView)findViewById(R.id.comments_list);
+        commentField = (EditText)findViewById(R.id.editComment);
+        commentField.setHint("Type comment...");
+        sendButton = (ImageButton)findViewById(R.id.send_button);
+        commentToolBar = (android.support.v7.widget.Toolbar) findViewById(R.id.top_toolbar_comment);
+        commentToolBar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_downward_black_24dp));
+        commentToolBar.setTitle("Comments");
+        commentToolBar.setTitleTextColor(Color.WHITE);
+
+
+        // ref to the news database
+        newsArticleDataRef = FirebaseDatabase.getInstance().getReference("news");
+
+
+        // show loading dialog
         dialog = new SpotsDialog(this);
         dialog.show();
 
-        //WebView
-        webView = (WebView)findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
+        //load web
         webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient(){
             @Override
@@ -84,28 +95,97 @@ public class NewsArticleActivity extends AppCompatActivity {
             }
         });
 
-        //comment button
-        comment = findViewById(R.id.fab);
-        comment.setOnClickListener(new View.OnClickListener(){
+        if(getIntent() != null)
+        {
+            if(!getIntent().getStringExtra("webURL").isEmpty()) {
+                webUrl = getIntent().getStringExtra("webURL");
+                webView.loadUrl(webUrl);
+            }
+        }
+
+        // ref to the database of comments of this news
+        commentsRef = newsArticleDataRef.child(webUrl.replace('.', ',')).child("comments");
+
+        // ref to the number of comment
+        numOfComRef = newsArticleDataRef.child(webUrl.replace('.', ',')).child("numOfComment");
+
+        //set up send comment button
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ProgressDialog progressDialog = new ProgressDialog(NewsArticleActivity.this);
+                progressDialog.setMessage("Sending comment...");
+                progressDialog.setCancelable(true);
+                progressDialog.setIndeterminate(true);
+                progressDialog.show();
+
+                final String comment = commentField.getText().toString();
+                if(!comment.isEmpty()) {
+                    final String user = FirebaseAuth.getInstance().getUid();
+                    final Long time = System.currentTimeMillis();
+
+                    // push object to webs node
+                    commentsRef.push().setValue(new Comment(user, time, comment));
+
+                    progressDialog.dismiss();
+                    commentField.setText("");
+
+                }
+
+            }
+        });
+
+        // set up toolbar
+        commentToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentButton.setVisibility(View.VISIBLE);
+                commentPad.setVisibility(View.GONE);
+            }
+        });
+
+        //set up comment button to show comment pad view
+        commentButton.setOnClickListener(new View.OnClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 if(!webUrl.isEmpty()) {
                     commentPad.setVisibility(View.VISIBLE);
-                    comment.setVisibility(View.GONE);
+                    commentButton.setVisibility(View.GONE);
 
-                    //initialize comment view
+
+                    // populate comments list
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
                     commentList.setLayoutManager(layoutManager);
 
+                    // comments for display
                     comments = new ArrayList<Comment>();
-                    webRef.child(webUrl.replace('.',',')).addChildEventListener(new ChildEventListener() {
+
+                    commentsRef.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Comment comment = dataSnapshot.getValue(Comment.class);
-                            comments.add(comment);
+                            Comment comment = dataSnapshot.getValue(Comment.class); // get the newly added comment
+                            comments.add(0,comment);
 
                             commentAdapter = new ListCommentsAdapter(comments, getBaseContext());
                             commentList.setAdapter(commentAdapter);
+
+                            numOfComRef.runTransaction(new Transaction.Handler() {
+                                @Override
+                                public Transaction.Result doTransaction(MutableData mutableData) {
+                                    int num = 0;
+                                    if(mutableData.getValue() != null)
+                                        num = mutableData.getValue(Integer.class);
+                                    mutableData.setValue(num + 1);
+                                    return Transaction.success(mutableData);
+                                }
+
+                                @Override
+                                public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                    dialog.dismiss();
+                                    Log.d("CommentNum", "comment number:" + dataSnapshot.getValue());
+                                }
+                            });
                         }
 
                         @Override
@@ -129,7 +209,8 @@ public class NewsArticleActivity extends AppCompatActivity {
                         }
                     });
 
-                    /*Query query = webRef.child(webUrl.replace('.', ','));
+                    // alternative -- use firebase recycler adapter(not able to update comment
+                    /*Query query = newsArticleDataRef.child(webUrl.replace('.', ','));
 
                     FirebaseRecyclerOptions<Comment> options = new FirebaseRecyclerOptions.Builder<Comment>()
                             .setQuery(query, Comment.class)
@@ -161,55 +242,16 @@ public class NewsArticleActivity extends AppCompatActivity {
             }
         });
 
-        //comment pad view
-        commentPad = (CardView)findViewById(R.id.comment_pad);
-        commentPad.setVisibility(View.GONE);
 
-        //comment list
-        commentList = (RecyclerView)findViewById(R.id.comments_list);
-
-        if(getIntent() != null)
-        {
-            if(!getIntent().getStringExtra("webURL").isEmpty()) {
-                webUrl = getIntent().getStringExtra("webURL");
-                webView.loadUrl(webUrl);
-            }
-        }
-
-        // comment textfield
-        commentField = findViewById(R.id.editComment);
-
-        //send comment button
-        sendButton = findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final ProgressDialog progressDialog = new ProgressDialog(NewsArticleActivity.this);
-                progressDialog.setMessage("Sending comment...");
-                progressDialog.setCancelable(true);
-                progressDialog.setIndeterminate(true);
-                progressDialog.show();
-
-                final String comment = commentField.getText().toString();
-                if(!comment.isEmpty()) {
-                    final String user = FirebaseAuth.getInstance().getUid();
-                    final Long time = System.currentTimeMillis();
-
-                    // push object to webs node
-                    webRef.child(webUrl.replace('.', ',')).push().setValue(new Comment(user, time, comment));
-
-                    commentField.setText("");
-                    progressDialog.dismiss();
-                }
-
-        }
-        });
 
 
     }
 
 }
 
+/**
+ * Holder for an comment item.
+ */
 class CommentHolder extends RecyclerView.ViewHolder{
 
     TextView comment_user;
