@@ -11,9 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.anonymous.anonymous.AnonymousBaseActivity;
@@ -33,8 +35,6 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Discussion Board");
-
-
     }
 
     @Override
@@ -57,4 +57,22 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         Intent intent = new Intent(this, DiscussionCreateActivity.class);
         startActivity(intent);
     }
+
+    public void refresh() {
+
+        final ListView listView = findViewById(R.id.discussion_list);
+        //final String[] LIST_MENU = {"LIST1", "LIST2", "LIST3"} ;
+
+        DBHelper dbHelper = new DBHelper(getApplicationContext(), "Anonymous.db", null, 1);
+        String[] LIST_MENU = dbHelper.getTitles();
+
+        Toast.makeText(getApplicationContext(),
+                LIST_MENU[0], Toast.LENGTH_SHORT).show();
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU);
+
+        listView.setAdapter(adapter);
+
+    }
+
 }

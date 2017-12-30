@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,27 +47,19 @@ public class DiscussionCreateActivity extends AppCompatActivity {
 
         final DBHelper dbHelper = new DBHelper(getApplicationContext(), "Anonymous.db", null, 1);
 
-        //Assinging the data
-        final EditText etTitle = (EditText) findViewById(R.id.discussion_title);
-        final EditText etMessage = (EditText) findViewById(R.id.discussion_message);
-
         //Getting current time and date
         final long now = System.currentTimeMillis();
 
         //Format of the date
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/ MM/ dd");
+        String date = simpleDateFormat.format(new Date(now)).toString();
+        String title = titleBar.getText().toString();
+        String message = messageBar.getText().toString();
 
-        ImageButton insert = (ImageButton) findViewById(R.id.apply_button);
-        insert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String date = simpleDateFormat.format(new Date(now)).toString();
-                String title = etTitle.toString();
-                String message = etMessage.toString();
+        dbHelper.insert(date, title, message);
 
-                dbHelper.insert(date, title, message);
-            }
-        });
+        Toast.makeText(getApplicationContext(),
+                message, Toast.LENGTH_SHORT).show();
     }
 
     private boolean isEmpty(EditText etText) {
