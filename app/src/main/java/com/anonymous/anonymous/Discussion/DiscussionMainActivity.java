@@ -2,18 +2,25 @@ package com.anonymous.anonymous.Discussion;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.anonymous.anonymous.AnonymousBaseActivity;
 import com.anonymous.anonymous.R;
 
 public class DiscussionMainActivity extends AnonymousBaseActivity {
+
+    //Path to save the file.
+    private String saveFullPath;
+    private String savePath;
+    private final String filename = "MoneyBook.db";
+    private final String host = "http://ec2-13-57-227-82.us-west-1.compute.amazonaws.com/";
+    private final int port = 1998;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +31,11 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Discussion Board");
 
-        //bottom nav
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
-        menuItem.setChecked(true);
-        menuItem.setEnabled(false);
+        savePath = getCacheDir().toString();
+        saveFullPath = savePath + "/" + filename;
+        FileClient fc = new FileClient(host, port, savePath, filename);
+        fc.downloadFile();
+        refresh();
     }
 
     @Override
@@ -53,4 +58,18 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         Intent intent = new Intent(this, DiscussionCreateActivity.class);
         startActivity(intent);
     }
+
+    public void refresh() {
+
+        final ListView listView = findViewById(R.id.discussion_list);
+        //final String[] LIST_MENU = {"LIST1", "LIST2", "LIST3"} ;
+
+        DBHelper dbHelper = new DBHelper(getApplicationContext(), saveFullPath, null, 1);
+        String[] LIST_MENU = dbHelper.getTitle();
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU);
+
+        listView.setAdapter(adapter);
+    }
+
 }
