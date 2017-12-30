@@ -1,31 +1,26 @@
 package com.anonymous.anonymous.Discussion;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.anonymous.anonymous.AnonymousBaseActivity;
-import com.anonymous.anonymous.Discussion.DiscussionCreateActivity;
 import com.anonymous.anonymous.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DiscussionMainActivity extends AnonymousBaseActivity {
+
+    //Path to save the file.
+    private String saveFullPath;
+    private String savePath;
+    private final String filename = "MoneyBook.db";
+    private final String host = "ec2-13-57-227-82.us-west-1.compute.amazonaws.com";
+    private final int port = 1998;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +30,12 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Discussion Board");
+
+        savePath = getCacheDir().toString();
+        saveFullPath = savePath + "/" + filename;
+        FileClient fc = new FileClient(host, port, savePath, filename);
+        fc.downloadFile();
+        refresh();
     }
 
     @Override
@@ -63,16 +64,12 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         final ListView listView = findViewById(R.id.discussion_list);
         //final String[] LIST_MENU = {"LIST1", "LIST2", "LIST3"} ;
 
-        DBHelper dbHelper = new DBHelper(getApplicationContext(), "Anonymous.db", null, 1);
-        String[] LIST_MENU = dbHelper.getTitles();
-
-        Toast.makeText(getApplicationContext(),
-                LIST_MENU[0], Toast.LENGTH_SHORT).show();
+        DBHelper dbHelper = new DBHelper(getApplicationContext(), saveFullPath, null, 1);
+        String[] LIST_MENU = dbHelper.getTitle();
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU);
 
         listView.setAdapter(adapter);
-
     }
 
 }

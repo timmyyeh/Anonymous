@@ -51,7 +51,7 @@ public class DiscussionCreateActivity extends AppCompatActivity {
         final long now = System.currentTimeMillis();
 
         //Format of the date
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/ MM/ dd");
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String date = simpleDateFormat.format(new Date(now)).toString();
         String title = titleBar.getText().toString();
         String message = messageBar.getText().toString();

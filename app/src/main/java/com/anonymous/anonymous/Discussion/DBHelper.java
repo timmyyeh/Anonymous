@@ -4,42 +4,64 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    // DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음
+    /**
+     * Constructor for DBHelper
+     * @param context application context.
+     * @param name Database name.
+     * @param factory factory information.
+     * @param version Version information.
+     */
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    // DB를 새로 생성할 때 호출되는 함수
+    /**
+     * Database on create function.
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
-        /* 이름은 ANONYMOUS이고
-        item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        //db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price INTEGER, create_at TEXT);");
-        db.execSQL("CREATE TABLE MONEYBOOK (item TEXT, price TEXT, create_at TEXT);");
+        /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
+        item 문자열 컬럼, message 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
+        db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, message TEXT, create_at TEXT);");
     }
 
-    // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
+    /**
+     * If we need to use onupgrade function, define here.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
-    public void insert(String create_at, String item, String price) {
-        // 읽고 쓰기가 가능하게 DB 열기
+    /**
+     * Insert function.
+     * @param create_at Data time.
+     * @param title title for the discussion.
+     * @param message Message for the discussion.
+     */
+    public void insert(String create_at, String title, String message) {
+
+        //Opening writiable database.
         SQLiteDatabase db = getWritableDatabase();
-        // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + item + "', '" + price + "', '" + create_at + "');");
+
+        // Insert data into the database.
+        db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + title + "', '" + message + "', '" + create_at + "');");
         db.close();
     }
 
-    public void update(String item, String price) {
+    public void update(String item, String message) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        db.execSQL("UPDATE MONEYBOOK SET price='" + price + "' WHERE item='" + item + "';");
+        db.execSQL("UPDATE MONEYBOOK SET message=" + message + " WHERE item='" + item + "';");
         db.close();
     }
 
@@ -50,12 +72,16 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Temporary function returning the result in string format.
+     * @return every data result.
+     */
     public String getResult() {
-        // 읽기가 가능하게 DB 열기
+        // Opening readable database.
         SQLiteDatabase db = getReadableDatabase();
         String result = "";
 
-        // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
+        //Accessing db with cursor, and save the data into result string.
         Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
         while (cursor.moveToNext()) {
             result += cursor.getString(0)
@@ -63,11 +89,45 @@ public class DBHelper extends SQLiteOpenHelper {
                     + cursor.getString(1)
                     + " | "
                     + cursor.getString(2)
-                    + "원 "
+                    + " | "
                     + cursor.getString(3)
                     + "\n";
         }
 
         return result;
     }
+
+    /**
+     * Getting title in String array format.
+     * @return titles
+     */
+    public String[] getTitle() {
+
+        // Opening readable database
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<String> result = new ArrayList<>();
+
+        //Get the title and save it into the String Array.
+        Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
+        for (int i=0; cursor.moveToNext(); i++) {
+            result.add(cursor.getString(1));
+        }
+
+        return result.toArray(new String[0]);
+    }
+
+//    public String getResult() {
+//        String[] titles = getTitle();
+//        //String[] titles = {"HI", "Testing"};
+//        String result = "";
+//
+//        for(String str : titles) {
+//
+//            result += str + "\n";
+//        }
+//
+//        return result;
+//    }
 }
+
+
