@@ -34,12 +34,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.github.curioustechizen.ago.RelativeTimeTextView
-                android:id="@+id/news_time"
-                android:textSize="14sp"
-                android:textStyle="italic"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <com.github.curioustechizen.ago.RelativeTimeTextView
+                    android:id="@+id/news_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_alignParentLeft="true"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:id="@+id/comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true" />
+                <ImageView
+                    android:id="@+id/comment_icon"
+                    android:layout_toLeftOf="@id/comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_comment_grey_24dp"></ImageView>
+            </RelativeLayout>
+
         </LinearLayout>
 
     </LinearLayout>

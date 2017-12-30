@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "263602084542",
+    "firebase_url": "https://anonymous-utimate.firebaseio.com",
+    "project_id": "anonymous-utimate",
+    "storage_bucket": "anonymous-utimate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263602084542:android:be2297f8d9dbb164",
+        "android_client_info": {
+          "package_name": "com.anonymous.anonymous"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263602084542-nisjqpf5lv251bnoentq2ti1h6c08jh3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anonymous.anonymous",
+            "certificate_hash": "ae8cd9c37103f69ae8ae1ab2d94e997809ca3ab7"
+          }
+        },
+        {
+          "client_id": "263602084542-i2qmguco86an0d64jnjeos7qhivs90fr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3Y92ff2j8wlI6iM14mJ6_hl-Ev98dY-Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263602084542-i2qmguco86an0d64jnjeos7qhivs90fr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
