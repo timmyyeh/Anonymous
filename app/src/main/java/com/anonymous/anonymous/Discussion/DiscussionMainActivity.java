@@ -19,7 +19,7 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
     private String saveFullPath;
     private String savePath;
     private final String filename = "MoneyBook.db";
-    private final String host = "ec2-13-57-227-82.us-west-1.compute.amazonaws.com";
+    private final String host = "http://ec2-13-57-227-82.us-west-1.compute.amazonaws.com/";
     private final int port = 1998;
 
     @Override
