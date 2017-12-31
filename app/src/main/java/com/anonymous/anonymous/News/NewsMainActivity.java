@@ -1,9 +1,15 @@
 package com.anonymous.anonymous.News;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anonymous.anonymous.News.Adapter.ListNewsAdapter;
 import com.anonymous.anonymous.News.Model.Article;
@@ -21,9 +28,15 @@ import com.anonymous.anonymous.News.Utility.NewsService;
 import com.anonymous.anonymous.R;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.florent37.diagonallayout.DiagonalLayout;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
@@ -41,8 +54,10 @@ public class NewsMainActivity extends AnonymousBaseActivity {
     NewsService mService;
     TextView top_author, top_title;
     SwipeRefreshLayout swipeRefreshLayout;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
 
-    String location = "Seattle AND (WA OR Washington)", sortBy = "publishedAt", webHotUrl = "";
+    String mLocation = "Seattle AND (WA OR Washington)", sortBy = "publishedAt", webHotUrl = "";
 
     ListNewsAdapter adapter;
     RecyclerView lstNews;
@@ -63,7 +78,7 @@ public class NewsMainActivity extends AnonymousBaseActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadNews(location, true);
+                loadNews(mLocation, true);
             }
         });
         diagonalLayout = (DiagonalLayout) findViewById(R.id.diagonalLayout);
@@ -86,9 +101,38 @@ public class NewsMainActivity extends AnonymousBaseActivity {
         lstNews.setLayoutManager(layoutManager);
 
 
-        //Add location service here
+        //create an instance of the Fused Location Provider Client
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, PERMISSION_ACCESS_COARSE_LOCATION);
+        }
 
-        loadNews(location, false);
+        double MyLat, MyLong;
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known mLocation. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle mLocation object
+                        }
+                    }
+                });
+
+        Location location = mFusedLocationClient.getLastLocation().getResult();
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String cityName = addresses.get(0).getAddressLine(0);
+        String stateName = addresses.get(0).getAddressLine(1);
+        String countryName = addresses.get(0).getAddressLine(2);
+
+        loadNews(mLocation, false);
 
         //bottom nav
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
@@ -180,7 +224,19 @@ public class NewsMainActivity extends AnonymousBaseActivity {
         return super.onNavigationItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // All good!
+                } else {
+                    Toast.makeText(this, "Need your mLocation!", Toast.LENGTH_SHORT).show();
+                }
 
+                break;
+        }
+    }
 }
 
 
