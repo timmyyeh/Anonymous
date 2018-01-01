@@ -1,4 +1,4 @@
-package com.anonymous.anonymous.Chat;
+package com.anonymous.anonymous.Chat.Adapter;
 
 import android.content.Context;
 import android.text.format.DateFormat;

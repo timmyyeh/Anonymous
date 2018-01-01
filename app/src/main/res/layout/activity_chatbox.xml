@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.anonymous.anonymous.Chat.ChatMainFragment"
+        android:name="com.anonymous.anonymous.Chat.ChatBoxFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_top_chat"

@@ -2,7 +2,6 @@ package com.anonymous.anonymous.Chat;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +15,7 @@ public class ChatActivity extends AnonymousBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chatbox);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);

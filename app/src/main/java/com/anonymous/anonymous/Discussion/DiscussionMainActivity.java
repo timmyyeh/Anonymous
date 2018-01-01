@@ -3,6 +3,7 @@ package com.anonymous.anonymous.Discussion;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +31,15 @@ public class DiscussionMainActivity extends AnonymousBaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Discussion Board");
+
+        //bottom nav
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+        menuItem.setEnabled(false);
+        //[bottom nav end]
 
         savePath = getCacheDir().toString();
         saveFullPath = savePath + "/" + filename;

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.anonymous.anonymous.AnonymousBaseActivity;
+import com.anonymous.anonymous.Chat.Adapter.ChatAdapter;
 import com.anonymous.anonymous.Chat.Model.ChatMessage;
 import com.anonymous.anonymous.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,8 +77,6 @@ public class ChatMainActivity extends AnonymousBaseActivity {
                 ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
                 chatMessages.add(chatMessage);
                 displayMessage();
-
-
 
             }
 
