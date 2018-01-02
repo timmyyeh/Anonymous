@@ -74,6 +74,8 @@ public class ChatFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
                 chatMessages.add(chatMessage);
+                chatAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -110,25 +112,6 @@ public class ChatFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mDatabaseChatNode.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    chatMessages.add(snapshot.getValue(ChatMessage.class));
-                    chatAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
     @Override
     public void onDestroyView() {

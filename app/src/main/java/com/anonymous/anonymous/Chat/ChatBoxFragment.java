@@ -74,9 +74,11 @@ public class ChatBoxFragment extends Fragment {
             }
         });
 
-        mDatabase.addChildEventListener(new ChildEventListener() {
+        mDatabase.child("chats").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                chatMessages.add(dataSnapshot.getValue(ChatMessage.class));
+                chatBoxAdapter.notifyItemInserted(chatMessages.size() - 1);
 
             }
 
@@ -108,22 +110,6 @@ public class ChatBoxFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Listen to Database
-        mDatabase.child("chats").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    chatMessages.add(snapshot.getValue(ChatMessage.class));
-                    chatBoxAdapter.notifyItemInserted(chatMessages.size() - 1);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         mDatabase.child("users").addValueEventListener(new ValueEventListener() {
             @Override
