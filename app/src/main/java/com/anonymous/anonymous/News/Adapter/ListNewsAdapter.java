@@ -23,11 +23,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.toptas.rssconverter.RssItem;
 
 /**
  * Created by pan on 2017/12/17.
@@ -67,10 +70,10 @@ class ListNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
 public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
 
-    private List<Article> articleList;
+    private List<RssItem> articleList;
     private Context context;
 
-    public ListNewsAdapter(List<Article> articleList, Context context) {
+    public ListNewsAdapter(List<RssItem> articleList, Context context) {
         this.articleList = articleList;
         this.context = context;
     }
@@ -85,7 +88,7 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
     @Override
     public void onBindViewHolder(final ListNewsViewHolder holder, int position) {
         Picasso.with(context)
-                .load(articleList.get(position).getUrlToImage())
+                .load(articleList.get(position).getImage())
                 .into(holder.article_image);
 
         if(articleList.get(position).getTitle().length() > 65)
@@ -93,27 +96,28 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
         else
             holder.article_title.setText(articleList.get(position).getTitle());
 
+        DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
         Date date = null;
-        try{
-            date = ISO8601DateParser.parse(articleList.get(position).getPublishedAt());
-        }catch (ParseException ex)
-        {
-            ex.printStackTrace();
+        try {
+            date = formatter.parse(articleList.get(position).getPublishDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        holder.article_time.setReferenceTime(date.getTime());
+        if (date != null)
+            holder.article_time.setReferenceTime(date.getTime());
 
 
         DatabaseReference newsArticleDataRef = FirebaseDatabase.getInstance().getReference("news");
         DatabaseReference numOfComRef = newsArticleDataRef
-                .child(articleList.get(position).getUrl().replace('.', ',')).child("numOfComment");
+                .child(articleList.get(position).getLink().replace('.', ',')).child("numOfComment");
 
 
         numOfComRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int num = dataSnapshot.getValue(Integer.class);
-                if(num < 0)
-                    num = 0;
+                int num = 0;
+                if(dataSnapshot.getValue() != null)
+                    num = dataSnapshot.getValue(Integer.class);
                 holder.num_comment.setText(String.valueOf(num));
             }
 
@@ -128,7 +132,7 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
                 Intent articleBody = new Intent(context, NewsArticleActivity.class);
-                articleBody.putExtra("webURL", articleList.get(position).getUrl());
+                articleBody.putExtra("webURL", articleList.get(position).getLink());
                 context.startActivity(articleBody);
             }
         });
