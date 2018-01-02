@@ -1,7 +1,7 @@
 package com.anonymous.anonymous.News.Utility;
 
+import me.toptas.rssconverter.RssConverterFactory;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by pan on 2017/12/18.
@@ -15,7 +15,7 @@ public class RetrofitClient {
         {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(RssConverterFactory.create())
                     .build();
         }
         return retrofit;
