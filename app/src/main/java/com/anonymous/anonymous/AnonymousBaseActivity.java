@@ -12,6 +12,7 @@ import com.anonymous.anonymous.Chat.ChatActivity;
 import com.anonymous.anonymous.Discussion.DiscussionMainActivity;
 import com.anonymous.anonymous.News.NewsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public abstract class AnonymousBaseActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -21,6 +22,13 @@ public abstract class AnonymousBaseActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.item_logout:
+                // notify database that user is offline
+                FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("users")
+                        .child(FirebaseAuth.getInstance().getUid())
+                        .setValue(false);
+
                 FirebaseAuth.getInstance().signOut();
                 switchActivity(LoginMainActivity.class);
                 return true;

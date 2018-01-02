@@ -3,7 +3,6 @@ package com.anonymous.anonymous.Chat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.anonymous.anonymous.Chat.Adapter.ChatBoxAdapter;
 import com.anonymous.anonymous.Chat.Decorator.DividerListItemDecoration;
 import com.anonymous.anonymous.Chat.Model.ChatMessage;
 import com.anonymous.anonymous.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,8 +36,11 @@ public class ChatBoxFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ChatBoxAdapter chatBoxAdapter;
-    private DatabaseReference mDatabaseChatNode = FirebaseDatabase.getInstance().getReference("chats");
-    List<ChatMessage> chatMessages = new ArrayList<>();
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private String uid = FirebaseAuth.getInstance().getUid();
+    private String anonymous;
+    private List<String> users = new ArrayList<>();
+    private List<ChatMessage> chatMessages = new ArrayList<>();
 
 
     @Override
@@ -62,11 +66,15 @@ public class ChatBoxFragment extends Fragment {
         view.findViewById(R.id.button_search_anonymous).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.w(TAG, "Search a user!");
+                if(users.size() == 0){
+                    Toast.makeText(getContext(), "There are no users online now!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                anonymous = users.remove(users.size() - 1);
             }
         });
 
-        mDatabaseChatNode.addChildEventListener(new ChildEventListener() {
+        mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -101,13 +109,30 @@ public class ChatBoxFragment extends Fragment {
     public void onStart() {
         super.onStart();
         // Listen to Database
-        mDatabaseChatNode.addValueEventListener(new ValueEventListener() {
+        mDatabase.child("chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     chatMessages.add(snapshot.getValue(ChatMessage.class));
                     chatBoxAdapter.notifyItemInserted(chatMessages.size() - 1);
 
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabase.child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Log.w(TAG, snapshot.getKey());
+                    if(snapshot.getValue(boolean.class) && !snapshot.getKey().equals(uid)){
+                        users.add(snapshot.getKey());
+                    }
                 }
             }
 

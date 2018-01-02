@@ -9,6 +9,8 @@ import android.view.MenuItem;
 
 import com.anonymous.anonymous.AnonymousBaseActivity;
 import com.anonymous.anonymous.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ChatActivity extends AnonymousBaseActivity {
 
@@ -28,6 +30,13 @@ public class ChatActivity extends AnonymousBaseActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
         menuItem.setEnabled(false);
+
+        // notify database that user is online
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getUid())
+                .setValue(true);
 
     }
     @Override

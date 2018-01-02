@@ -1,10 +1,8 @@
 package com.anonymous.anonymous.Chat.Adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,7 @@ import com.anonymous.anonymous.Chat.ChatFragment;
 import com.anonymous.anonymous.Chat.Model.ChatMessage;
 import com.anonymous.anonymous.R;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,9 +70,9 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ChatMessage message = mDataset.get(position);
-        holder.mLastMessage.setText("Test Message");
-        holder.mLastUser.setText("Test User");
-        holder.mLastTime.setText("Test time");
+        holder.mLastMessage.setText("Last Message " + position);
+        holder.mLastUser.setText("User " + position);
+        holder.mLastTime.setText(DateFormat.format("HH:mm", new Date()));
 
     }
 
