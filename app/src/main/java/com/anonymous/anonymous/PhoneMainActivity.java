@@ -2,9 +2,9 @@ package com.anonymous.anonymous;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anonymous.anonymous.Chat.ChatMainActivity;
+import com.anonymous.anonymous.Chat.ChatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -72,8 +72,10 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
 
         // verification callbacks
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                Log.w(TAG, "Verification success");
                 // success
                 mVerificationInProgress = false;
                 signIn(phoneAuthCredential);
@@ -82,16 +84,23 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
+                Log.w(TAG, "Verification failed");
+                button_signIn.setEnabled(false);
+                textView_resend.setEnabled(false);
                 mVerificationInProgress = false;
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-
+                    Log.w(TAG, "Failed with invalid phone number");
                     phone_input.setError("Invalid phone number.");
 
                 } else if (e instanceof FirebaseTooManyRequestsException) {
+                    Log.w(TAG, "Failed with quota excess");
+                    Toast.makeText(getApplicationContext(), "Quota excess", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Log.w(TAG, "Failed with " +e.getMessage());
+                    phone_input.setError(e.getMessage());
 
-                    Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
-                            Snackbar.LENGTH_SHORT).show();
                 }
             }
 
@@ -99,6 +108,12 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
             public void onCodeSent(String id, PhoneAuthProvider.ForceResendingToken token){
                 mResendToken = token;
                 mVerificationId = id;
+
+                // enable user to log in
+                button_signIn.setEnabled(true);
+                textView_resend.setEnabled(true);
+                Log.w(TAG, "Code Send! With Token"+mResendToken+" and id "+mVerificationId);
+
             }
         };
 
@@ -107,18 +122,21 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
     }
     // Sign in with phone and switch to main activity
     private void signIn(PhoneAuthCredential phoneAuthCredential) {
+        Log.w(TAG, "Sign in State");
         mAuth.signInWithCredential(phoneAuthCredential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // sign in success
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(PhoneMainActivity.this, ChatMainActivity.class);
+                            Log.w(TAG, "SIGN in success");
+                            Intent intent = new Intent(PhoneMainActivity.this, ChatActivity.class);
                             startActivity(intent);
                             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                             finish();
                         }
                         else{
+                            Log.w(TAG, "Something is wrong");
                             //sign in failed with wrong code
                             if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                                 Toast.makeText(getApplicationContext(), "Wrong Code!", Toast.LENGTH_SHORT).show();
@@ -150,13 +168,12 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                 this,
                 mCallbacks
         );
-        // enable user to log in
-        button_signIn.setEnabled(true);
-        textView_resend.setEnabled(true);
         mVerificationInProgress = true;
+
     }
 
     private void verifyPhoneNumberCode(String id, String code){
+        Log.w(TAG, "Verify phone process id: "+id +" code " +code);
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(id, code);
         signIn(credential);
     }
@@ -178,17 +195,28 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.button_send:
                 // do action
-                Log.w(TAG, "send!");
+                if(TextUtils.isEmpty(phone_input.getText().toString())){
+                    phone_input.setError("Phone Number Must be Enter!");
+                    return;
+                }
                 phoneNumberVerification(phone_input.getText().toString());
-                return;
+                Log.w(TAG, "Number Button Pressed" + phone_input.getText().toString());
+                break;
             case R.id.button_signin:
                 //do action
-                Log.w(TAG, "sign in!");
+                if(mResendToken == null || mVerificationId == null){
+                    Log.w(TAG, "sign in failed with verification id:"+mVerificationId+" code: "+mResendToken);
+                    return;
+                }
                 verifyPhoneNumberCode(mVerificationId, phone_code.getText().toString());
-                return;
+                 break;
             case R.id.resend_textView:
-                Log.w(TAG, "resend");
+                if(mResendToken == null || mVerificationId == null){
+                    Log.w(TAG, "resend failed");
+                    return;
+                }
                 resendVerificationCode(phone_input.getText().toString(), mResendToken);
+                break;
         }
     }
 }

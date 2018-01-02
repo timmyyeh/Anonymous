@@ -15,7 +15,24 @@
         android:layout_alignParentTop="true"
         android:layout_height="42dp"
         android:layout_width="match_parent"></include>
-    <include layout="@layout/layout_bottom"></include>
+    <include layout="@layout/layout_bottom"
+        android:id="@+id/include3"></include>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/include3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageButton">
+
+        <ListView
+            android:id="@+id/discussion_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ImageButton
         android:id="@+id/imageButton"

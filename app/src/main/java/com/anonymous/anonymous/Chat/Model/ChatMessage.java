@@ -9,7 +9,9 @@ import java.util.Date;
 public class ChatMessage {
     private String mMessage;
     private String mName;
+    private String lastMessage;
     private long mTime;
+
 
     public ChatMessage(){
 
@@ -17,6 +19,7 @@ public class ChatMessage {
     public ChatMessage(String msgTxt, String user){
         this.mMessage = msgTxt;
         this.mName = user;
+
         mTime = new Date().getTime();
     }
 
@@ -44,12 +47,4 @@ public class ChatMessage {
         this.mTime = msgTime;
     }
 
-    @Override
-    public String toString() {
-        return "ChatMessage{" +
-                "mMessage='" + mMessage + '\'' +
-                ", mName='" + mName + '\'' +
-                ", mTime=" + mTime +
-                '}';
-    }
 }

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,12 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Chat.ChatMainActivity" />
+        <activity android:name=".Chat.ChatActivity" />
         <activity android:name=".Discussion.DiscussionMainActivity" />
         <activity android:name=".News.NewsMainActivity" />
+        <activity android:name=".News.NewsArticleActivity" />
         <activity android:name=".Discussion.DiscussionCreateActivity" />
-        <activity android:name=".PhoneMainActivity"></activity>
-        <activity android:name=".News.NewsArticleActivity"></activity>
+        <activity android:name=".PhoneMainActivity" />
     </application>
 
 </manifest>
