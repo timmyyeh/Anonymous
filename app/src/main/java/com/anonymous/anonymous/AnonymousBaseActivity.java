@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.anonymous.anonymous.Chat.ChatActivity;
-import com.anonymous.anonymous.Chat.ChatMainActivity;
 import com.anonymous.anonymous.Discussion.DiscussionMainActivity;
 import com.anonymous.anonymous.News.NewsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;

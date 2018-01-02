@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anonymous.anonymous.Chat.ChatMainActivity;
+import com.anonymous.anonymous.Chat.ChatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -130,7 +130,7 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                         // sign in success
                         if(task.isSuccessful()){
                             Log.w(TAG, "SIGN in success");
-                            Intent intent = new Intent(PhoneMainActivity.this, ChatMainActivity.class);
+                            Intent intent = new Intent(PhoneMainActivity.this, ChatActivity.class);
                             startActivity(intent);
                             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                             finish();

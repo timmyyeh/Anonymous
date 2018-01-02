@@ -22,5 +22,4 @@
         app:backgroundTint="#c2c2c2"
         app:fabSize="mini"
         app:rippleColor="#ffffff" />
-
 </FrameLayout>

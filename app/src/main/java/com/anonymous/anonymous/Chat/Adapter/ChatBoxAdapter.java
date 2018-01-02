@@ -1,6 +1,8 @@
 package com.anonymous.anonymous.Chat.Adapter;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anonymous.anonymous.Chat.ChatActivity;
+import com.anonymous.anonymous.Chat.ChatFragment;
 import com.anonymous.anonymous.Chat.Model.ChatMessage;
 import com.anonymous.anonymous.R;
 
@@ -37,7 +41,11 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            Log.w(TAG, getAdapterPosition()+"");
+            ((ChatActivity) mContext).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment, new ChatFragment())
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 

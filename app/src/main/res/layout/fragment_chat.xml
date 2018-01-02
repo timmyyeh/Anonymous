@@ -1,28 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anonymous.anonymous.Chat.ChatMainActivity">
-    <include layout="@layout/layout_top"
-        android:id="@+id/layout_top_chat" />
-    <include layout="@layout/layout_bottom"
-        android:id="@+id/layout_bottom_chat" />
-
-
+    android:background="#fff"
+    tools:context="com.anonymous.anonymous.Chat.ChatFragment">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_top_chat"
-        android:layout_above="@+id/layout_bottom_chat">
-
+        >
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fab_chat_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -38,11 +28,10 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fab"
+            android:layout_toLeftOf="@id/fab_chat_main"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true">
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,14 +48,15 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_above="@id/fab"
             android:dividerHeight="16dp"
+            android:layout_above="@id/fab_chat_main"
             android:divider="@android:color/transparent"
             android:id="@+id/list_of_messages"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="5px"
             android:layout_alignParentLeft="true" />
+
     </RelativeLayout>
 
 
-</RelativeLayout>
+</FrameLayout>
